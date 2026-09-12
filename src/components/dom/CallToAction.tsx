@@ -9,7 +9,7 @@ export function CallToAction() {
         <button
             type="button"
             disabled={registered}
-            className="CTA-button"
+            className="section__cta"
             onClick={() => {
                 setRegistered(true);
             }}

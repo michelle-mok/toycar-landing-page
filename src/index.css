@@ -36,6 +36,23 @@ body {
     font-size: clamp(1.5rem, 5vw, 3.5rem);
 }
 
+.section__cta {
+    align-self: flex-start;
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--text);
+    color: var(--background);
+    cursor: pointer;
+}
+
+.section__cta:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
 .section__heading {
     margin: 0.2rem;
 }
