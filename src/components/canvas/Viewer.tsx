@@ -10,6 +10,7 @@ const FOV_DEGREES = 40;
 export function Viewer() {
     return (
         <Canvas camera={{ position: CAMERA_POSITION, fov: FOV_DEGREES }}>
+            <ScrollPosReader />
             <Suspense fallback={null}>
                 <Environment preset="studio" />
                 <Watch />
