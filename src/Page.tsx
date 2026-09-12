@@ -8,9 +8,12 @@ export function Page() {
                 <Viewer />
             </div>
             <div className="dom-layer">
-                <Section heading="Presence" text="text" />
-                <Section heading="Made, not Moulded" text="text" />
-                <Section heading="Three Hundred" text="text" />
+                <Section heading="Presence" text="Holds attention" />
+                <Section heading="Made, not Moulded" text="Handcrafted by master watchmakers" />
+                <Section
+                    heading="Three Hundred"
+                    text="Only three hundred pieces available worldwide"
+                />
             </div>
         </main>
     );
