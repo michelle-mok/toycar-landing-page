@@ -12,12 +12,36 @@ body {
 .canvas-layer {
     position: fixed;
     inset: 0;
+    left: 0;
+}
+
+@media (min-width: 48rem) {
+    .canvas-layer {
+        left: 28%;
+    }
 }
 
 .dom-layer {
     position: relative;
+    container-type: inline-size;
 }
 
 .section {
     min-height: 100dvh;
+    max-width: 28rem;
+    padding: 0 6dvw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.section__heading,
+.section__text {
+    margin: 0.2rem;
+}
+@container (min-width: 48rem) {
+    .section {
+        justify-content: center;
+    }
 }
