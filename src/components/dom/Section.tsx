@@ -2,11 +2,12 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { useRef, type ReactNode } from 'react';
 
-const SCRUB_SECONDS = 2.5;
+const DESKTOP_SCRUB_SECONDS = 2.5;
 const DESKTOP_QUERY = '(min-width: 48rem)';
 const MOBILE_QUERY = `not all and ${DESKTOP_QUERY}`;
 const MOBILE_START = 'top 15%';
 const MOBILE_END = 'top -15%';
+const MOBILE_SCRUB_SECONDS = 0.3;
 
 export function Section({
     heading,
@@ -30,7 +31,7 @@ export function Section({
                     trigger: currentRef,
                     start: 'center bottom',
                     end: 'center top',
-                    scrub: SCRUB_SECONDS,
+                    scrub: DESKTOP_SCRUB_SECONDS,
                 },
             })
                 .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
@@ -44,7 +45,7 @@ export function Section({
                     trigger: currentRef,
                     start: MOBILE_START,
                     end: MOBILE_END,
-                    scrub: 1,
+                    scrub: MOBILE_SCRUB_SECONDS,
                 },
             })
                 .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
