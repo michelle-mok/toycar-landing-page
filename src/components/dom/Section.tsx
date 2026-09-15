@@ -20,34 +20,35 @@ export function Section({
     const sectionRef = useRef<HTMLElement>(null);
     useGSAP(() => {
         if (!sectionRef.current) return;
+        const currentRef = sectionRef.current;
 
         const mm = gsap.matchMedia();
         mm.add(DESKTOP_QUERY, () => {
             gsap.timeline({
                 defaults: { ease: 'none' },
                 scrollTrigger: {
-                    trigger: sectionRef.current,
+                    trigger: currentRef,
                     start: 'center bottom',
                     end: 'center top',
                     scrub: SCRUB_SECONDS,
                 },
             })
-                .fromTo(sectionRef.current, { opacity: 0 }, { opacity: 1 })
-                .to(sectionRef.current, { opacity: 0 });
+                .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
+                .to(currentRef, { opacity: 0 });
         });
 
         mm.add(MOBILE_QUERY, () => {
             gsap.timeline({
                 defaults: { ease: 'none' },
                 scrollTrigger: {
-                    trigger: sectionRef.current,
+                    trigger: currentRef,
                     start: MOBILE_START,
                     end: MOBILE_END,
                     scrub: 1,
                 },
             })
-                .fromTo(sectionRef.current, { opacity: 0 }, { opacity: 1 })
-                .to(sectionRef.current, { opacity: 0 });
+                .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
+                .to(currentRef, { opacity: 0 });
         });
     });
 
