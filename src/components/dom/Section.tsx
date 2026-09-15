@@ -4,6 +4,9 @@ import { useRef, type ReactNode } from 'react';
 
 const SCRUB_SECONDS = 2.5;
 const DESKTOP_QUERY = '(min-width: 48rem)';
+const MOBILE_QUERY = `not all and ${DESKTOP_QUERY}`;
+const MOBILE_START = 'top 15%';
+const MOBILE_END = 'top -15%';
 
 export function Section({
     heading,
@@ -27,6 +30,20 @@ export function Section({
                     start: 'center bottom',
                     end: 'center top',
                     scrub: SCRUB_SECONDS,
+                },
+            })
+                .fromTo(sectionRef.current, { opacity: 0 }, { opacity: 1 })
+                .to(sectionRef.current, { opacity: 0 });
+        });
+
+        mm.add(MOBILE_QUERY, () => {
+            gsap.timeline({
+                defaults: { ease: 'none' },
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: MOBILE_START,
+                    end: MOBILE_END,
+                    scrub: 1,
                 },
             })
                 .fromTo(sectionRef.current, { opacity: 0 }, { opacity: 1 })
