@@ -1,5 +1,6 @@
+import { useGSAP } from '@gsap/react';
 import { useGLTF } from '@react-three/drei';
-import { useFrame } from '@react-three/fiber';
+import gsap from 'gsap';
 import { useRef } from 'react';
 import type { Group } from 'three';
 
@@ -11,14 +12,18 @@ export function Watch() {
     const gltf = useGLTF(MODEL_URL);
     const groupRef = useRef<Group>(null);
 
-    useFrame((_state, _delta) => {
-        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-        if (scrollable <= 0) return;
-
-        const t = Math.max(0, Math.min(1, window.scrollY / scrollable));
-
+    useGSAP(() => {
         if (!groupRef.current) return;
-        groupRef.current.rotation.y = t * TOTAL_ANGLE;
+        gsap.to(groupRef.current.rotation, {
+            y: TOTAL_ANGLE,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: document.documentElement,
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: true,
+            },
+        });
     });
     return (
         <group ref={groupRef}>
