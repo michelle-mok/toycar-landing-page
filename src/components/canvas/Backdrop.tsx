@@ -33,7 +33,7 @@ const FRAGMENT_SHADER = `
 
     void main() {
         float d = length(vUv - CENTER);
-        float radius = GLOW_RADIUS - BREATH_DEPTH * (sin(uTime * uSpeed * TAU) + 0.5 * 0.5);
+        float radius = GLOW_RADIUS - BREATH_DEPTH * (sin(uTime * uSpeed * TAU) * 0.5 + 0.5);
         float falloff = smoothstep(0.0, radius, d);
         vec3 col = mix(GLOW, BACKGROUND, falloff);
         float noise = (hash(gl_FragCoord.xy) - 0.5) * DITHER_STRENGTH * (1.0 - step(1.0, falloff));
