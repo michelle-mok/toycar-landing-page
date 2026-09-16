@@ -12,6 +12,7 @@ const SCRUB_SECONDS = 1;
 export function Watch() {
     const gltf = useGLTF(MODEL_URL);
     const groupRef = useRef<Group>(null);
+    const entranceRef = useRef<Group>(null);
 
     useGSAP(() => {
         if (!groupRef.current) return;
@@ -27,9 +28,11 @@ export function Watch() {
         });
     });
     return (
-        <group ref={groupRef}>
-            <group position={OFFSET}>
-                <primitive object={gltf.scene} />
+        <group ref={entranceRef}>
+            <group ref={groupRef}>
+                <group position={OFFSET}>
+                    <primitive object={gltf.scene} />
+                </group>
             </group>
         </group>
     );
