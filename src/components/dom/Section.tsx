@@ -5,9 +5,9 @@ import { useRef, type ReactNode } from 'react';
 const DESKTOP_SCRUB_SECONDS = 2.5;
 const DESKTOP_QUERY = '(min-width: 48rem)';
 const MOBILE_QUERY = `not all and ${DESKTOP_QUERY}`;
-const MOBILE_START = 'top 15%';
-const MOBILE_END = 'top -15%';
-const MOBILE_SCRUB_SECONDS = 0.3;
+const MOBILE_START = 'top 25%';
+const MOBILE_END = 'top -25%';
+const MOBILE_SCRUB_SECONDS = 1;
 
 export function Section({
     heading,

@@ -13,11 +13,13 @@ body {
     position: fixed;
     inset: 0;
     left: 0;
+    top: 25%;
 }
 
 @media (min-width: 48rem) {
     .canvas-layer {
-        left: 38%;
+        left: 40%;
+        top: 0;
     }
 }
 
@@ -32,17 +34,19 @@ body {
     padding: 0 6dvw;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
     font-size: clamp(1.5rem, 5vw, 3.5rem);
+    text-align: center;
 }
 
 .section__cta {
-    align-self: flex-start;
+    align-self: center;
     font-size: 1rem;
     font-family: inherit;
-    padding: 0.75rem 1rem;
+    padding: 0.3rem 0.75rem;
+    width: 9rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     background: var(--text);
     color: var(--background);
     cursor: pointer;
@@ -54,15 +58,28 @@ body {
 }
 
 .section__heading {
-    margin: 0.2rem;
+    margin: 4rem 2rem 0rem;
 }
 
 .section__text {
     margin: 0.5rem 0.2rem 1rem;
+    font-size: clamp(1rem, 5vw, 2rem);
 }
 
 @container (min-width: 48rem) {
     .section {
         justify-content: center;
+        text-align: left;
+    }
+
+    .section__heading {
+        margin: 0.5rem 0.2rem 0rem;
+    }
+
+    .section__cta {
+        align-self: flex-start;
+        width: 12rem;
+        font-size: 1.5rem;
+        margin-top: 0.75rem;
     }
 }
