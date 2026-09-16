@@ -25,12 +25,19 @@ const FRAGMENT_SHADER = `
     const float GLOW_RADIUS = 0.5;
     const float TAU = 6.2831853;
     const float BREATH_DEPTH = 0.1;
+    const float DITHER_STRENGTH = 1.0 / 255.0;
+
+    float hash(vec2 p) {
+        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+    }
 
     void main() {
         float d = length(vUv - CENTER);
         float radius = GLOW_RADIUS - BREATH_DEPTH * (sin(uTime * uSpeed * TAU) + 0.5 * 0.5);
         float falloff = smoothstep(0.0, radius, d);
         vec3 col = mix(GLOW, BACKGROUND, falloff);
+        float noise = (hash(gl_FragCoord.xy) - 0.5) * DITHER_STRENGTH * (1.0 - step(1.0, falloff));
+        col += noise;
 
         gl_FragColor = vec4(col, 1.0);
     }
