@@ -8,6 +8,8 @@ const MODEL_URL = '/models/ChronographWatch.glb';
 const TOTAL_ANGLE = Math.PI * 2;
 const OFFSET = [-0.0485, 0.044, 1.942] as const;
 const SCRUB_SECONDS = 1;
+const ENTRANCE_SCALE = 0.8;
+const ENTRANCE_SECONDS = 1.2;
 
 export function Watch() {
     const gltf = useGLTF(MODEL_URL);
@@ -16,6 +18,7 @@ export function Watch() {
 
     useGSAP(() => {
         if (!groupRef.current) return;
+
         gsap.to(groupRef.current.rotation, {
             y: TOTAL_ANGLE,
             ease: 'none',
@@ -27,6 +30,19 @@ export function Watch() {
             },
         });
     });
+
+    useGSAP(() => {
+        if (!entranceRef.current) return;
+
+        gsap.from(entranceRef.current.scale, {
+            x: ENTRANCE_SCALE,
+            y: ENTRANCE_SCALE,
+            z: ENTRANCE_SCALE,
+            duration: ENTRANCE_SECONDS,
+            ease: 'power2.out',
+        });
+    });
+
     return (
         <group ref={entranceRef}>
             <group ref={groupRef}>
