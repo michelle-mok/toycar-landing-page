@@ -1,4 +1,9 @@
+import { useFrame } from '@react-three/fiber';
+import { useMemo, useRef } from 'react';
+import type { ShaderMaterial } from 'three';
+
 const PLANE_SIZE: [number, number] = [2, 2];
+const GLOW_SPEED = 0.1;
 
 const VERTEX_SHADER = `
     varying vec2 vUv;
@@ -27,10 +32,26 @@ const FRAGMENT_SHADER = `
 `;
 
 export function Backdrop() {
+    const uniforms = useMemo(() => {
+        return {
+            uTime: { value: 0 },
+            uSpeed: { value: GLOW_SPEED },
+        };
+    }, []);
+
+    const materialRef = useRef<ShaderMaterial>(null);
+    useFrame((_state, delta) => {
+        if (!materialRef.current) return;
+        const uTime = materialRef.current.uniforms.uTime;
+        uTime.value = (uTime.value as number) + delta;
+    });
+
     return (
         <mesh frustumCulled={false} renderOrder={-1}>
             <planeGeometry args={PLANE_SIZE} />
             <shaderMaterial
+                ref={materialRef}
+                uniforms={uniforms}
                 vertexShader={VERTEX_SHADER}
                 fragmentShader={FRAGMENT_SHADER}
                 depthTest={false}
