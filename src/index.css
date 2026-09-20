@@ -1,6 +1,7 @@
 :root {
     --background: #111112;
     --text: #f5f5f5;
+    --font-display: 'Gilda Display' Serif;
 }
 
 body {
@@ -58,7 +59,10 @@ body {
 }
 
 .section__heading {
-    margin: 4rem 2rem 0rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.2;
+    font-size: clamp(2rem, 8vw, 4rem);
 }
 
 .section__text {
