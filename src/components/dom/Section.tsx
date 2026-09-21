@@ -13,10 +13,12 @@ export function Section({
     heading,
     text,
     children,
+    fadeOut = true,
 }: {
     heading: string;
     text: string;
     children?: ReactNode;
+    fadeOut?: boolean;
 }) {
     const sectionRef = useRef<HTMLElement>(null);
     useGSAP(() => {
@@ -35,7 +37,7 @@ export function Section({
                 },
             })
                 .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
-                .to(currentRef, { opacity: 0 });
+                .to(currentRef, { opacity: fadeOut ? 0 : 1 });
         });
 
         mm.add(MOBILE_QUERY, () => {
@@ -49,7 +51,7 @@ export function Section({
                 },
             })
                 .fromTo(currentRef, { opacity: 0 }, { opacity: 1 })
-                .to(currentRef, { opacity: 0 });
+                .to(currentRef, { opacity: fadeOut ? 0 : 1 });
         });
     });
 
