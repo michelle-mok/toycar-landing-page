@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { useRef } from 'react';
 import type { Group } from 'three';
 
-const MODEL_URL = '/models/ChronographWatch.glb';
+const MODEL_URL = '/models/ChronographWatch-opt.glb';
 const TOTAL_ANGLE = Math.PI * 2;
 const OFFSET = [-0.0485, 0.044, 1.942] as const;
 const SCRUB_SECONDS = 1;
