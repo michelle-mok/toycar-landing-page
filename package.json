@@ -9,7 +9,8 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "format": "prettier --write .",
-        "format:check": "prettier --check ."
+        "format:check": "prettier --check .",
+        "model:optimise": "gltf-transform resize public/models/ChronographWatch.glb /tmp/glb-resized.glb --width 1024 --height 1024 && gltf-transform webp /tmp/glb-resized.glb /tmp/glb-webp.glb --lossless true && gltf-transform meshopt /tmp/glb-webp.glb public/models/ChronographWatch-opt.glb --level high"
     },
     "dependencies": {
         "@gsap/react": "^2.1.2",
@@ -22,6 +23,7 @@
     },
     "devDependencies": {
         "@eslint/js": "^10.0.1",
+        "@gltf-transform/cli": "^4.5.0",
         "@types/node": "^24.13.3",
         "@types/react": "^19.2.18",
         "@types/react-dom": "^19.2.4",
