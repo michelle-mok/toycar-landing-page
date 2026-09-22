@@ -10,7 +10,7 @@
         "preview": "vite preview",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
-        "model:optimise": "gltf-transform resize public/models/ChronographWatch.glb /tmp/glb-resized.glb --width 1024 --height 1024 && gltf-transform webp /tmp/glb-resized.glb /tmp/glb-webp.glb --lossless true && gltf-transform meshopt /tmp/glb-webp.glb public/models/ChronographWatch-opt.glb --level high"
+        "model:optimise": "gltf-transform resize assets-src/ChronographWatch.glb /tmp/glb-resized.glb --width 1024 --height 1024 && gltf-transform webp /tmp/glb-resized.glb /tmp/glb-webp.glb --lossless true && gltf-transform meshopt /tmp/glb-webp.glb public/models/ChronographWatch-opt.glb --level high"
     },
     "dependencies": {
         "@gsap/react": "^2.1.2",
