@@ -13,6 +13,7 @@ const ENTRANCE_SECONDS = 1.2;
 
 export function Watch() {
     const gltf = useGLTF(MODEL_URL);
+
     const groupRef = useRef<Group>(null);
     const entranceRef = useRef<Group>(null);
 
