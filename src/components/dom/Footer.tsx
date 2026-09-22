@@ -1,9 +1,6 @@
 export function Footer() {
     return (
         <footer className="footer">
-            <p className="footer__brand">
-                © 2026 Chronograph. A fictional brand, built as a portfolio piece.
-            </p>
             <p className="footer__attribution">
                 Asset © 2025 Darmstadt Graphics Group GmbH, CC BY 4.0 International, adapted by Eric
                 Chadwick. Original asset{' '}
