@@ -1,8 +1,10 @@
 import { useGSAP } from '@gsap/react';
 import { useGLTF } from '@react-three/drei';
+import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
 import { useRef } from 'react';
 import type { Group } from 'three';
+import { useSceneStore } from '../../stores/sceneStore';
 
 const MODEL_URL = '/models/ChronographWatch-opt.glb';
 const TOTAL_ANGLE = Math.PI * 2;
@@ -16,6 +18,18 @@ export function Watch() {
 
     const groupRef = useRef<Group>(null);
     const entranceRef = useRef<Group>(null);
+    const firstFrameSeen = useRef(false);
+
+    useFrame(() => {
+        if (useSceneStore.getState().isWatchReady) return;
+
+        if (!firstFrameSeen.current) {
+            firstFrameSeen.current = true;
+            return;
+        }
+
+        useSceneStore.getState().markWatchReady();
+    });
 
     useGSAP(() => {
         if (!groupRef.current) return;

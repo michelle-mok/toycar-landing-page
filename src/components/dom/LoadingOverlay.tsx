@@ -1,7 +1,7 @@
-import { useProgress } from '@react-three/drei';
+import { useSceneStore } from '../../stores/sceneStore';
 
 export function LoadingOverlay() {
-    const isLoading = useProgress((state) => state.active || state.total === 0);
+    const isLoading = !useSceneStore((state) => state.isWatchReady);
 
     return (
         <div className="loading-overlay" data-active={String(isLoading)}>
