@@ -111,6 +111,26 @@ body {
     text-decoration: underline;
 }
 
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--background);
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: grid;
+    place-items: center;
+    transition: opacity 0.6s ease-out;
+}
+
+.loading-overlay[data-active='false'] {
+    opacity: 0;
+    pointer-events: none;
+}
+
 @container (min-width: 48rem) {
     .section {
         justify-content: center;

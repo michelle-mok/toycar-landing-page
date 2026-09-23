@@ -1,6 +1,7 @@
 import { Viewer } from './components/canvas/Viewer';
 import { CallToAction } from './components/dom/CallToAction';
 import { Footer } from './components/dom/Footer';
+import { LoadingOverlay } from './components/dom/LoadingOverlay';
 import { Section } from './components/dom/Section';
 
 export function Page() {
@@ -21,6 +22,7 @@ export function Page() {
                 </Section>
                 <Footer />
             </div>
+            <LoadingOverlay />
         </main>
     );
 }
