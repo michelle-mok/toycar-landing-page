@@ -24,7 +24,7 @@ export function Footer() {
                 >
                     Khronos glTF Sample Assets
                 </a>
-                .
+                . Modified for this project: textures resized and re-encoded; geometry compressed.
             </p>
         </footer>
     );
