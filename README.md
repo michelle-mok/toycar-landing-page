@@ -4,7 +4,7 @@ A landing page for a fictional limited-edition collector's watch.
 
 **Live Demo:** https://toycar-landing-page.vercel.app/
 
-<!-- screenshot / GIF goes here -->
+![watch mid-rotation beside "Made, not Moulded" section](docs/screenshot.png)
 
 ## What it does
 
