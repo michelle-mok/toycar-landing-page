@@ -1,73 +1,92 @@
-# React + TypeScript + Vite
+# Scroll-Driven 3D Product Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A landing page for a fictional limited-edition collector's watch.
 
-Currently, two official plugins are available:
+**Live Demo:** https://toycar-landing-page.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<!-- screenshot / GIF goes here -->
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Scroll-driven product rotation.** The watch rotates through 1 turn full continuously as the user scrolls down the page, allowing them to see the watch from every side. The motion is eased so that it glides instead of jumping.
 
-## Expanding the ESLint configuration
+- **Three flowing sections.** _Presence_, _Made, not Moulded_ and _Three Hundred_ fade in and out beside the watch, ending with a **Register** call to action.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Built for both phones and desktops.** On mobile, the copy moves above the watch rather than beside it, with its own fade timing.
 
-```js
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
+- **Clean first impression.** A loading overlay covers the page until the watch is rendered, so users have a premium experience (no half-built pages presented to them).
 
-            // Remove tseslint.configs.recommended and replace with this
-            tseslint.configs.recommendedTypeChecked,
-            // Alternatively, use this for stricter rules
-            tseslint.configs.strictTypeChecked,
-            // Optionally, add this for stylistic rules
-            tseslint.configs.stylisticTypeChecked,
+## Performance
 
-            // Other configs...
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+The source model is 7.4MB. After optimisation, the whole deployed site (code and model) is 4.1MB.
+
+|                           | before | after             |
+| ------------------------- | ------ | ----------------- |
+| 3D model                  | 7.4MB  | **2.8MB** (-63%)  |
+| Texture memory on the GPU | 71.7MB | **21.3MB** (-70%) |
+
+- **First load:** under 2 seconds on 5G, about 1 second on home wifi.
+- **Smoothness:** holds 60fps at rest and while scrolling on a Xiaomi 14 (Snapdragon 8 Gen 3, Chrome).
+
+## Technical decisions
+
+- **Meshopt over Draco for geometry.** Both compress well but drei's useGLTF fetches the Draco decoder from Google's CDN at runtime, while Meshopt's decoder is already bundled with the app, resulting in one less third party request.
+
+- **Lossless WebP.** Lossy WebP was measured at a saving of a further 1.2MB but was rejected because it visibly flattened the normal and roughness maps, resulting in a less realistic render of the watch model.
+
+- **Textures capped at 1024px.** Cuts GPU texture memory by 70%. Reviewed the model rendered on screen and kept.
+
+- **The glass costs a second render.** The watch crystal uses real transmission, which makes Three.js redraw the whole scene into an offscreen buffer every frame. That buffer renders at 75% resolution; at 50% the dial behind the glass appears blurry.
+
+- **The loading screen waits for the first frame to be drawn, not the model to be downloaded.** After the files are downloaded, the model is not immediately visible as the browser still has to decode textures and compile shaders. A flag set after the watch's first rendered frame (shared via a Zustand store) hides the overlay only when the model has been rendered.
+
+- **Reproducible pipeline.** `npm run model:optimise` rebuilds the optimised model from the original source.
+
+## Architecture
+
+```
+src/
+├── components/
+│   ├── canvas/     everything mounted inside <Canvas>
+│   └── dom/        everything in the browser DOM
+├── stores/         Zustand - state shared between <Canvas> and DOM
+└── config/         shared constants
+assets-src/         original model - not shipped
+public/models/      optimised model
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+- **Folders follow the renderer.** A component lives in `canvas/` or `dom/` depending on which React renderer mounts it.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+- **Per-frame work stays out of React.** Values that change every frame, such as the backdrop's animated glow, are written onto three.js objects inside `useFrame`, and the scroll rotation is tweened by GSAP, so they do not cause React re-renders.
 
-export default defineConfig([
-    globalIgnores(['dist']),
-    {
-        files: ['**/*.{ts,tsx}'],
-        extends: [
-            // Other configs...
-            // Enable lint rules for React
-            reactX.configs['recommended-typescript'],
-            // Enable lint rules for React DOM
-            reactDom.configs.recommended,
-        ],
-        languageOptions: {
-            parserOptions: {
-                project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
-            // other options...
-        },
-    },
-]);
+- **Only one store.** The only shared state is the flag that the canvas writes after the watch is first drawn, and the loading overlay subscribes to it. Nothing else requires a store.
+
+# Running locally
+
+Developed on Node.js 24.
+
+```bash
+npm install
+npm run dev     # development server
+npm run build   # type-check, then production build to dist/
+npm run preview # serve the production build locally
+npm run lint    # ESLint
 ```
+
+Add `?stats` to the URL to show a live FPS panel.
+
+```bash
+npm run model:optimise
+```
+
+This writes intermediate files to `/tmp`, so it runs on macOS, Linux and WSL, not native Windows.
+
+## Credits
+
+**3D model** - _Chronograph Watch_, from the [Khronos glTF Sample Assets](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ChronographWatch). Attribution, verbatim from the model file:
+
+> Asset © 2025 Darmstadt Graphics Group GmbH, CC BY 4.0 International, adapted by Eric Chadwick. Original asset Chronograph Watch Mudmaster (https://skfb.ly/oAsPA) by graphiccompressor is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/). Khronos logo © 2015, Khronos Group. DGG logo © 2020, Darmstadt Graphics Group GmbH.
+
+**Changes made for this project:** textures resized to a maximum of 1024 px and re-encoded as lossless WebP; unused data removed; geometry quantised and compressed with Meshopt, using [glTF Transform](https://gltf-transform.dev/). Used under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
+**Fonts** - Gilda Display and Inter, served from Google Fonts under the SIL Open Font License.
